@@ -1,0 +1,98 @@
+<div class="conainer">
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      {{diagnostic}}
+      <form #contactForm="ngForm" class="form-horizontal">
+        <h2> Contacts </h2>
+        <div class="form-group">
+          <label for="FirstName">First Name:</label>
+          <input type="text" [(ngModel)]="contact.firstName" class="form-control" id="FirstName" placeholder="First Name" name="FirstName"
+            required  #FirstName="ngModel"> 
+           
+          <div [hidden]="FirstName.valid || FirstName.pristine" class="alert alert-danger">
+            First Name is required
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="LastName">Last Name:</label>
+          <input type="text" [(ngModel)]="contact.lastName" class="form-control" id="LastName" placeholder="Last Name" name="LastName"
+            required #LastName="ngModel">
+             <div [hidden]="LastName.valid || LastName.pristine" class="alert alert-danger">
+            Last Name is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Title">Title:</label>
+          <input type="text" [(ngModel)]="contact.contactType" class="form-control" id="Title" placeholder="Title" name="Title"
+            required  #Title="ngModel">
+             <div [hidden]="Title.valid || Title.pristine" class="alert alert-danger">
+            Title is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" [(ngModel)]="contact.email" class="form-control" id="email" placeholder="Enter email" name="email" required  #Email="ngModel">
+
+           <div [hidden]="Email.valid || Email.pristine" class="alert alert-danger">
+            Title is required
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-default" (click)="onSubmit()" *ngIf="!updateMode" [disabled]="!contactForm.form.valid">Add Contact</button>
+        <button type="submit" class="btn btn-default" (click)="onUpdate()" *ngIf="updateMode" [disabled]="!contactForm.form.valid">Update Contact</button>
+
+        <button class="btn btn-default" (click)="reset();contactForm.reset();">Reset</button>
+        <div class="alert alert-success" *ngIf="checkMessageLength()">
+          {{ message}}
+        </div>
+        <br><br>
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <div class="row" *ngIf="checkContact()">
+    <div class="col-md-6 col-md-offset-3">
+
+      <table class="table table-bordered">
+        <tr>
+          <td>First Name</td>
+          <td>Last Name</td>
+          <td>Contact Type</td>
+          <td>E-Mail</td>
+          <td></td>
+
+        </tr>
+
+        <tr *ngFor="let p of contacts">
+          <td>
+            {{ p.firstName }}
+          </td>
+          <td>
+            {{ p.lastName }}
+          </td>
+          <td>
+            {{ p.contactType }}
+          </td>
+          <td>
+            {{ p.email }}
+          </td>
+          <td>
+            <button class="btn btn-default" (click)="edit(p)">Edit</button>
+            <button class="btn btn-default" (click)="delete(p)">Delete</button> </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+  <div *ngIf="!checkContact()">
+    <div class="alert alert-danger">
+      No records
+
+    </div>
+  </div>
+</div>
